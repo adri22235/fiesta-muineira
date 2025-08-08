@@ -117,13 +117,13 @@
     </div>
   </footer>
 
-  <!-- Audio (pon tu archivo en /music/muineira.mp3) -->
-  <audio id="audio" autoplay loop">
+  <!-- Audio con autoplay y loop -->
+  <audio id="audio" autoplay loop>
     <source src="music/muineira.mp3" type="audio/mpeg" />
   </audio>
 
   <script>
-    // Año
+    // Año en el footer
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // Tema persistente
@@ -143,14 +143,14 @@
     playBtn.addEventListener('click', async () => {
       try {
         await audio.play();
-        launchConfetti(120); // un poco de confeti al reproducir
+        launchConfetti(120);
       } catch(e){
-        alert('No se pudo reproducir. Sube tu archivo en music/muineira.mp3 o interactúa con la página.');
+        console.error(e);
       }
     });
     stopBtn.addEventListener('click', () => { audio.pause(); audio.currentTime = 0; });
 
-    // Confeti simple en canvas
+    // Confeti simple
     const canvas = document.getElementById('confetti');
     const ctx = canvas.getContext('2d');
     let W, H; let pieces = [];
@@ -177,13 +177,17 @@
     draw();
     function launchConfetti(n=80){ for(let i=0;i<n;i++) pieces.push(createPiece()); }
     document.getElementById('boom').addEventListener('click', () => launchConfetti(200));
-  </script>
 
-  <!--
-    ✅ Cómo usar
-    1) Crea carpeta /music y añade muineira.mp3 (o el nombre que quieras). Cambia la ruta del <audio> si hace falta.
-    2) Sube el archivo a GitHub Pages, Vercel o Netlify. Puedo prepararte el deploy en 1 paso.
-    3) Cambia enlaces de redes y textos a tu gusto.
-  -->
+    // Truco anti-bloqueo autoplay
+    document.addEventListener('DOMContentLoaded', () => {
+      const a = document.getElementById('audio');
+      if (!a) return;
+      const tryPlay = () => a.play().catch(() => {});
+      tryPlay();
+      window.addEventListener('click', tryPlay, { once: true });
+      window.addEventListener('touchstart', tryPlay, { once: true });
+    });
+  </script>
 </body>
 </html>
+
