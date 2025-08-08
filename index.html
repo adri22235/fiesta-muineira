@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es" class="h-full">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fiesta Muiñeira</title>
+  <meta name="description" content="Mini web divertida para celebrar con muiñeira a todo trapo." />
+  <meta name="theme-color" content="#16a34a" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' };
+  </script>
+  <style>
+    .glass { backdrop-filter: blur(8px); background: rgb(255 255 255 / .6) }
+    .dark .glass { background: rgb(17 24 39 / .6) }
+    .eq-bar { width: 6px; background: currentColor; border-radius: 9999px; animation: bounce 1.2s ease-in-out infinite; }
+    .eq-bar:nth-child(2){ animation-delay: .1s }
+    .eq-bar:nth-child(3){ animation-delay: .2s }
+    .eq-bar:nth-child(4){ animation-delay: .3s }
+    .eq-bar:nth-child(5){ animation-delay: .4s }
+    @keyframes bounce { 0%,100%{ transform: scaleY(.3)} 50%{ transform: scaleY(1)} }
+    canvas#confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+  </style>
+</head>
+<body class="h-full bg-green-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 selection:bg-green-200/60 selection:text-green-900">
+  <canvas id="confetti"></canvas>
+
+  <header class="sticky top-0 z-40 glass border-b border-gray-200 dark:border-gray-800">
+    <div class="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
+      <h1 class="font-extrabold tracking-tight text-xl md:text-2xl">🎶 Fiesta Muiñeira</h1>
+      <div class="flex items-center gap-2">
+        <button id="theme" class="rounded-xl border border-gray-200 dark:border-gray-800 px-3 py-1 text-sm hover:bg-gray-100 dark:hover:bg-gray-800">🌗 Tema</button>
+        <a href="#contacto" class="hidden sm:inline-block rounded-xl bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700">Contactar</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="relative">
+      <div class="mx-auto max-w-5xl px-4 py-16 grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <p class="uppercase tracking-widest text-xs text-gray-600 dark:text-gray-400">Evento en directo</p>
+          <h2 class="mt-2 text-4xl md:text-5xl font-extrabold leading-tight">
+            ¡Muiñeira al <span class="text-green-600">180%</span>!
+          </h2>
+          <p class="mt-4 text-lg text-gray-700 dark:text-gray-300">Sube el volumen, que hoy celebramos a lo grande. Pulsa reproducir y deja que la fiesta empiece.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button id="play" class="rounded-2xl bg-green-600 px-5 py-3 text-white font-medium hover:bg-green-700">▶️ Reproducir</button>
+            <button id="stop" class="rounded-2xl border border-gray-300 dark:border-gray-700 px-5 py-3 font-medium hover:bg-gray-100 dark:hover:bg-gray-800">⏹️ Parar</button>
+            <button id="boom" class="rounded-2xl border border-gray-300 dark:border-gray-700 px-5 py-3 font-medium hover:bg-gray-100 dark:hover:bg-gray-800">🎉 Confeti</button>
+          </div>
+          <div class="mt-6 flex items-end gap-1 text-green-600 dark:text-green-400" aria-hidden="true">
+            <span class="eq-bar h-6"></span>
+            <span class="eq-bar h-8"></span>
+            <span class="eq-bar h-5"></span>
+            <span class="eq-bar h-9"></span>
+            <span class="eq-bar h-7"></span>
+          </div>
+          <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Tip: sustituye <code>music/muineira.mp3</code> por tu audio.</p>
+        </div>
+        <div>
+          <div class="aspect-video w-full rounded-3xl bg-gradient-to-br from-green-400 to-indigo-500 shadow-2xl"></div>
+          <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">(Pon aquí una foto o vídeo de la fiesta)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Programación -->
+    <section class="bg-white dark:bg-gray-950 border-y border-gray-200 dark:border-gray-800">
+      <div class="mx-auto max-w-5xl px-4 py-12">
+        <h3 class="text-2xl font-bold">Programación de la noche</h3>
+        <ul class="mt-6 grid sm:grid-cols-2 gap-4 text-sm">
+          <li class="rounded-2xl border border-gray-200 dark:border-gray-800 p-4">
+            22:00 — Apertura y calentamiento 🥁
+          </li>
+          <li class="rounded-2xl border border-gray-200 dark:border-gray-800 p-4">
+            22:30 — Muiñeira clásica 💃
+          </li>
+          <li class="rounded-2xl border border-gray-200 dark:border-gray-800 p-4">
+            23:00 — Remix electrónico 🎛️
+          </li>
+          <li class="rounded-2xl border border-gray-200 dark:border-gray-800 p-4">
+            23:30 — Gran final con confeti 🎆
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto">
+      <div class="mx-auto max-w-5xl px-4 py-12 grid md:grid-cols-2 gap-10">
+        <div>
+          <h3 class="text-2xl font-bold">¿Te apuntas?</h3>
+          <p class="mt-2 text-gray-700 dark:text-gray-300">Déjame tu correo y te mando el enlace privado del próximo directo.</p>
+        </div>
+        <form class="space-y-3">
+          <input class="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3" placeholder="Tu nombre" />
+          <input type="email" class="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3" placeholder="Tu email" />
+          <button type="button" class="w-full rounded-xl bg-green-600 px-5 py-3 text-white font-medium hover:bg-green-700">Enviar (demo)</button>
+          <p class="text-xs text-gray-500 dark:text-gray-400">Este formulario es de demostración. Lo conecto a Formspree/Netlify cuando quieras.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-gray-200 dark:border-gray-800">
+    <div class="mx-auto max-w-5xl px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500 dark:text-gray-400">
+      <p>© <span id="year"></span> Fiesta Muiñeira</p>
+      <nav class="flex items-center gap-4">
+        <a class="hover:underline" href="#">Twitter</a>
+        <a class="hover:underline" href="#">YouTube</a>
+        <a class="hover:underline" href="#">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Audio (pon tu archivo en /music/muineira.mp3) -->
+  <audio id="audio" preload="none">
+    <source src="music/muineira.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    // Año
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Tema persistente
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') html.classList.add('dark');
+    if (saved === 'light') html.classList.remove('dark');
+    document.getElementById('theme').addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Audio controls
+    const audio = document.getElementById('audio');
+    const playBtn = document.getElementById('play');
+    const stopBtn = document.getElementById('stop');
+    playBtn.addEventListener('click', async () => {
+      try {
+        await audio.play();
+        launchConfetti(120); // un poco de confeti al reproducir
+      } catch(e){
+        alert('No se pudo reproducir. Sube tu archivo en music/muineira.mp3 o interactúa con la página.');
+      }
+    });
+    stopBtn.addEventListener('click', () => { audio.pause(); audio.currentTime = 0; });
+
+    // Confeti simple en canvas
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W, H; let pieces = [];
+    const colors = ['#16a34a','#22c55e','#84cc16','#f59e0b','#ef4444','#3b82f6'];
+    const resize = () => { W = canvas.width = innerWidth; H = canvas.height = innerHeight; };
+    addEventListener('resize', resize); resize();
+    function createPiece(){
+      return { x: Math.random()*W, y: -10, r: Math.random()*6+4, c: colors[(Math.random()*colors.length)|0], v: Math.random()*2+2, a: Math.random()*Math.PI*2 };
+    }
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      for (let p of pieces){
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.a);
+        ctx.fillStyle = p.c;
+        ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r*1.6);
+        ctx.restore();
+        p.y += p.v; p.x += Math.sin(p.a)*0.8; p.a += 0.02;
+      }
+      pieces = pieces.filter(p => p.y < H+20);
+      requestAnimationFrame(draw);
+    }
+    draw();
+    function launchConfetti(n=80){ for(let i=0;i<n;i++) pieces.push(createPiece()); }
+    document.getElementById('boom').addEventListener('click', () => launchConfetti(200));
+  </script>
+
+  <!--
+    ✅ Cómo usar
+    1) Crea carpeta /music y añade muineira.mp3 (o el nombre que quieras). Cambia la ruta del <audio> si hace falta.
+    2) Sube el archivo a GitHub Pages, Vercel o Netlify. Puedo prepararte el deploy en 1 paso.
+    3) Cambia enlaces de redes y textos a tu gusto.
+  -->
+</body>
+</html>
